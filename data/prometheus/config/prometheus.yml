@@ -1,0 +1,18 @@
+global:
+  scrape_interval:     120s # Set the scrape interval every 2 seconds. The default is every 1 minute.
+  evaluation_interval: 120s
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any time series scraped from this config.
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090','localhost:8080', 'localhost:9100', 'localhost:9113']
+
+  - job_name: 'Spring Boot Application input'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['weather-app-1:8080', 'weather-app-2:8080', 'weather-app-3:8080']
+        labels:
+          application: 'Open Weather Service API'
